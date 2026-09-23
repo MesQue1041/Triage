@@ -1,0 +1,74 @@
+{
+  "new_tickets": [
+    {
+      "id": "T-001",
+      "subject": "Production database is down, all customers affected",
+      "body": "Our main app has been throwing 500 errors for the last 15 minutes. Every customer-facing dashboard is blank. This started right after the 2am deploy."
+    },
+    {
+      "id": "T-002",
+      "subject": "Can't find the export button",
+      "body": "I've looked around the settings page for 5 minutes and can't find where to export my report as a CSV. Is it hidden somewhere?"
+    },
+    {
+      "id": "T-003",
+      "subject": "Payment processing failing for all EU customers",
+      "body": "Since this morning, every checkout attempt from EU-based accounts fails with 'payment declined', even on cards that definitely work. US customers seem fine."
+    },
+    {
+      "id": "T-004",
+      "subject": "Typo in the welcome email",
+      "body": "Just noticed the welcome email says 'Wecome' instead of 'Welcome'. Not urgent, just flagging it."
+    },
+    {
+      "id": "T-005",
+      "subject": "Dashboard loads slowly for large accounts",
+      "body": "Accounts with 10k+ records take 8-10 seconds to load the dashboard. It's usable but annoying. Been like this for about a week."
+    },
+    {
+      "id": "T-006",
+      "subject": "Data loss — deleted project didn't restore from backup",
+      "body": "I accidentally deleted a project and used the 'restore from trash' feature, but it's gone. This project had 3 months of client work in it."
+    },
+    {
+      "id": "T-007",
+      "subject": "Feature request: dark mode",
+      "body": "Would love a dark mode option for the app. Not a big deal, just a nice-to-have."
+    },
+    {
+      "id": "T-008",
+      "subject": "Login works but 2FA codes never arrive",
+      "body": "I can enter my password fine but the SMS 2FA code never shows up. Tried 3 times over 20 minutes. I'm locked out of my account."
+    }
+  ],
+  "resolved_notes": [
+    {
+      "id": "R-101",
+      "subject": "Checkout failing for European cards",
+      "body": "EU payment gateway had an expired SSL cert causing declines region-wide.",
+      "resolution": "Renewed the gateway's SSL certificate and rotated the payment provider API key. Fixed within 40 minutes, all EU transactions confirmed working after redeploy.",
+      "priority": "Critical"
+    },
+    {
+      "id": "R-102",
+      "subject": "Slow dashboard for large accounts",
+      "body": "Accounts with many records experienced multi-second load times.",
+      "resolution": "Added pagination and an index on the records table. Load time dropped from 9s to under 1s.",
+      "priority": "Medium"
+    },
+    {
+      "id": "R-103",
+      "subject": "Minor copy typo in onboarding flow",
+      "body": "A typo was found in step 2 of onboarding.",
+      "resolution": "Fixed the copy in the next release cycle, no rush needed.",
+      "priority": "Low"
+    },
+    {
+      "id": "R-104",
+      "subject": "2FA SMS codes delayed or missing",
+      "body": "Users reported SMS 2FA codes not arriving, locking them out.",
+      "resolution": "SMS provider had a delivery outage in one region. Switched to backup provider and notified affected users. Restored full access within 2 hours.",
+      "priority": "Critical"
+    }
+  ]
+}

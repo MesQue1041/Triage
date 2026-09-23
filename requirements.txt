@@ -1,0 +1,7 @@
+openai>=1.40.0        # the LLM api client
+
+python-dotenv>=1.0.0     # for .env
+
+numpy>=1.26.0
+
+# sentence-transformers>=2.7.0
