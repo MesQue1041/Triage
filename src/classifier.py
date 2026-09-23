@@ -47,19 +47,12 @@ Response: {"priority": "Low", "reason": "Cosmetic issue with no functional impac
 
 
 def classify_ticket(subject: str, body: str, extra_context: str = "") -> dict:
-    """
-    Sends one ticket to the LLM and returns a parsed dict like:
-    {"priority": "High", "reason": "..."}
-
-    extra_context is optional — this is where retrieval.py will later inject
-    similar past tickets (the RAG step). For now it's just an empty string.
-    """
     user_message = f"Ticket subject: {subject}\nTicket body: {body}"
 
-    if extra_context:
+    if extra_context:                    # RAG results from retrieval
         user_message += f"\n\nSimilar past tickets for context:\n{extra_context}"
 
-    response = client.chat.completions.create(
+    response = client.chat.completions.create(       # Calls the API
         model=MODEL_NAME,
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
@@ -68,13 +61,13 @@ def classify_ticket(subject: str, body: str, extra_context: str = "") -> dict:
         temperature=0.1,         # low for better consistentcy
     )
 
-    raw_text = response.choices[0].message.content.strip()
+    raw_text = response.choices[0].message.content.strip()    # The models output 
 
     if raw_text.startswith("```"):
         raw_text = raw_text.strip("`").replace("json\n", "", 1).strip()
 
     try:
-        result = json.loads(raw_text)
+        result = json.loads(raw_text)    # Convert the model's output to a Python dict
     except json.JSONDecodeError:
         raise ValueError(f"Model did not return valid JSON: {raw_text}")
 
